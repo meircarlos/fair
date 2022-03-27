@@ -1,0 +1,70 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Collection {
+  id: Int!
+  name: String!
+  launchDate: DateTime
+  reminders: [Reminder!]
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Reminder {
+  id: Int!
+  collectionId: Int!
+  collection: Collection!
+  dateTime: DateTime!
+  emailTo: String!
+  triggered: Boolean!
+}
+
+type Query {
+  collections: [Collection!]!
+  collectionsLaunched: [Collection!]!
+  collection(id: Int!): Collection!
+  reminders: [Reminder!]!
+  reminder(id: Int!): Reminder!
+}
+
+type Mutation {
+  createCollection(createCollectionInput: CreateCollectionInput!): Collection!
+  updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
+  removeCollection(id: Int!): Boolean!
+  setReminders(collectionId: Int!, emailTo: String!): [Reminder!]!
+  replaceReminders(collectionId: Int!): [Reminder!]!
+  cancelReminders(collectionId: Int!): Boolean!
+  createReminder(createReminderInput: CreateReminderInput!): Reminder!
+  updateReminder(updateReminderInput: UpdateReminderInput!): Reminder!
+  removeReminder(id: Int!): Boolean!
+}
+
+input CreateCollectionInput {
+  name: String!
+  launchDate: DateTime
+}
+
+input UpdateCollectionInput {
+  name: String
+  launchDate: DateTime
+  id: Int!
+}
+
+input CreateReminderInput {
+  collectionId: Int!
+  dateTime: DateTime!
+  emailTo: String!
+  triggered: Boolean = false
+}
+
+input UpdateReminderInput {
+  collectionId: Int
+  dateTime: DateTime
+  emailTo: String
+  triggered: Boolean = false
+  id: Int!
+}
